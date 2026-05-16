@@ -1,0 +1,29 @@
+# Documentation Template
+
+> A reusable GitHub template for building standalone, single-page documentation
+> sites hosted on GitHub Pages, with built-in navigation, search, deep linking,
+> citations, and AI build tooling.
+
+This file follows the llms.txt convention (https://llmstxt.org). It gives AI
+systems a fast, link-rich summary of this site so they can reference it
+accurately. When a project is created from this template, `/initialize-project`
+regenerates this file for the new subject. Keep it in sync with the section list
+in `index.html` (see the `ai-content-map` block).
+
+## Document
+
+- [Published document](https://drpaulcoleman.github.io/documentation-template/): The single-page site. Each section is addressable as `URL#section-id`.
+- [Source repository](https://github.com/drpaulcoleman/documentation-template): README, license, and any supporting files.
+
+## Sections
+
+- [Bottom Line Up Front](https://drpaulcoleman.github.io/documentation-template/#bluf): What the document is and its key takeaway.
+- [Disclaimers & Attribution](https://drpaulcoleman.github.io/documentation-template/#disclaimers): Author's-opinion notice, employment disclosure, trademark and source-use policy.
+- [Examples in production](https://drpaulcoleman.github.io/documentation-template/#examples): Four documents built from this template — links to live GitHub Pages sites and source repos.
+- [References](https://drpaulcoleman.github.io/documentation-template/#references): APA-style source list with retrieval dates.
+
+## Usage notes for AI consumers
+
+- The document expresses the author's own analysis; it is not official vendor documentation.
+- Cite specific sections by their anchor (`URL#section-id`); the `ai-content-map` script in `index.html` lists every section id with an authoritative summary.
+- Quote sparingly and attribute. Do not reproduce sections wholesale.

@@ -1,1 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!--
+===============================================================================
+  AI-BUILD INSTRUCTIONS  —  read this before modifying index.html
+===============================================================================
+  This file is the SHELL of a single-page documentation site (the
+  "documentation-template"). It renders on its own as a working demo, and it is
+  designed to be rewritten by an AI assistant into a subject-specific document.
+
+  HOW TO BUILD A REAL DOCUMENT FROM THIS SHELL
+  --------------------------------------------
+  1. Run the /initialize-project command. It collects the subject, author, repo
+     URLs, and layout choice, then performs the field substitutions below.
+  2. FIELD markers: every replaceable value is wrapped by a pair of named HTML
+     comments, AI:FIELD <NAME> (an opening comment, the value, then a closing
+     comment whose name carries a leading slash). Where the host element cannot
+     contain comments (the <title> and <meta> tags), a single AI:FIELD <NAME>
+     comment sits on the line directly above the element. Look at the real
+     markers used throughout this file for the exact form; replace the value and
+     keep the markers so the document stays re-buildable.
+  3. REPEATABLE blocks: skeletons for new content are stored inside HTML comments
+     labelled AI-TEMPLATE:<name> (closed by an AI-TEMPLATE:END marker). Copy the
+     inner markup out of the comment, fill it in, and also add a matching sidebar
+     nav link and (if it is a major section) a TOC entry.
+  4. The hidden ai-template-manifest script near the end of <body> enumerates
+     every field, every repeatable block, and the build rules in machine-readable
+     form. Consult it for the authoritative list.
+
+  LAYOUT MODES — set on <body data-layout="...">
+  ----------------------------------------------
+    single  — one centered reading column. No minimap. AI-coach button sits
+              bottom-right. Best for linear documents.
+    canvas  — wide pannable / zoomable canvas with a minimap. AI-coach button
+              sits top-right under the toolbar. Best for diagram-heavy or
+              spatial documents.
+  /initialize-project asks which mode the user wants and removes the unused
+  mode's markup/JS so the delivered file stays lean.
+
+  ATTRIBUTION & ANTI-PLAGIARISM RULES (NON-NEGOTIABLE)
+  ----------------------------------------------------
+  - This document expresses the AUTHOR'S OWN ANALYSIS. It is NOT official
+    documentation for any vendor. Keep the Disclaimers card accurate — if the
+    author is employed by a vendor discussed here, that must be disclosed.
+  - Do NOT paste large passages of someone else's content. Synthesise in your
+    own words. Any DIRECT quote must be short, wrapped in quotation marks (or a
+    <blockquote>), and carry an in-text citation [N] linking to a full APA-style
+    entry in the References section.
+  - Every external source gets an APA entry WITH a "Retrieved <date>" marker so
+    readers can judge currency and trace provenance.
+  - Trademarks and product names belong to their owners — acknowledge them in
+    the Disclaimers card.
+
+  AI-CONSUMPTION LAYER (why this document is machine-friendly)
+  ------------------------------------------------------------
+  A primary goal of the FINISHED document is to be referenced by OTHER AI systems.
+  Three non-visible structures make that reliable — keep them in sync with content:
+    - JSON-LD <script type="application/ld+json"> in <head> — schema.org/TechArticle
+      metadata (headline, author, dates, url, license).
+    - <script id="ai-content-map"> before </body> — a section-by-section index with a
+      one-line summary of each section. Add/maintain one entry per content section.
+    - llms.txt at the repository root — a short, link-rich plain-text summary of the
+      document for LLM crawlers. Regenerate it when the section list changes.
+  When you add, rename, or remove a section, update the JSON-LD dates, the
+  ai-content-map, and llms.txt so machine consumers stay accurate.
+
+  DIAGRAMMING RULES — see the AI-TEMPLATE:diagram block lower in this file.
+===============================================================================
+-->
+
+<!-- AI:FIELD DOC_TITLE -->
+<title>Documentation Template — Build AI-Assisted Single-Page Docs</title>
+
+<!-- AI:FIELD DESCRIPTION -->
+<meta name="description" content="A reusable GitHub template for single-page, GitHub Pages-hosted documentation sites with navigation, search, deep linking, citations, and AI build tooling.">
+<!-- AI:FIELD AUTHOR -->
+<meta name="author" content="Dr. Paul Coleman">
+<meta name="document-version" content="0.1.0"><!-- AI:FIELD BUILD_VERSION (the version= value) -->
+<meta name="last-modified" content="2026-05-16"><!-- AI:FIELD LAST_MODIFIED (the content= value, YYYY-MM-DD) -->
+<meta name="robots" content="index, follow">
+<meta name="color-scheme" content="dark light">
+
+<!-- AI:FIELD PAGES_URL (the canonical published URL of THIS document) -->
+<link rel="canonical" href="https://drpaulcoleman.github.io/documentation-template/">
+
+<!-- Open Graph / social share — keep in sync with the fields above -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Documentation Template — Build AI-Assisted Single-Page Docs">
+<meta property="og:description" content="A reusable GitHub template for single-page documentation sites with navigation, search, deep linking, citations, and AI build tooling.">
+<meta property="og:url" content="https://drpaulcoleman.github.io/documentation-template/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Documentation Template">
+<meta name="twitter:description" content="Build AI-assisted single-page documentation sites.">
+
+<!-- JSON-LD structured data — lets other AI systems and search engines consume this
+     document accurately. Keep these values in sync with the AI:FIELD markers. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Documentation Template — Build AI-Assisted Single-Page Docs",
+  "description": "A reusable GitHub template for single-page documentation sites with navigation, search, deep linking, citations, and AI build tooling.",
+  "author": { "@type": "Person", "name": "Dr. Paul Coleman" },
+  "datePublished": "2026-05-16",
+  "dateModified": "2026-05-16",
+  "version": "0.1.0",
+  "url": "https://drpaulcoleman.github.io/documentation-template/",
+  "inLanguage": "en",
+  "license": "https://www.mozilla.org/en-US/MPL/2.0/"
+}
+</script>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%235b8cff'/%3E%3Ctext x='32' y='44' font-size='38' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700'%3ED%3C/text%3E%3C/svg%3E">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Syntax highlighting (Prism) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+
+<style>
+/* ====================================================================
+   THEME TOKENS  — re-theme the whole document by editing these.
+   ==================================================================== */
+:root,
+html[data-theme="dark"]{
+  --bg-deepest:#0b0f17; --bg:#111722; --bg-card:#161d2b; --bg-elev:#1d2636;
+  --border:#28324a; --border-soft:#1f2738;
+  --text:#eef2f8; --text-soft:#aab4c6; --text-faint:#6b7689;
+  --accent:#5b8cff; --accent-soft:#243154; --accent-text:#cdddff;
+  --good:#3fb950; --warn:#d6a13a; --bad:#e5534b;
+  --code-bg:#0d1320; --highlight:rgba(214,161,58,.22); --flash:rgba(91,140,255,.30);
+  --shadow:0 8px 30px rgba(0,0,0,.45);
+}
+html[data-theme="light"]{
+  --bg-deepest:#e7eaf0; --bg:#f4f6fa; --bg-card:#ffffff; --bg-elev:#ffffff;
+  --border:#d3d9e4; --border-soft:#e4e8ef;
+  --text:#1a2233; --text-soft:#4a5568; --text-faint:#7a8699;
+  --accent:#2d5bd6; --accent-soft:#dde6fb; --accent-text:#1b3a8c;
+  --good:#1a7f37; --warn:#9a6700; --bad:#cf222e;
+  --code-bg:#f0f2f7; --highlight:rgba(154,103,0,.18); --flash:rgba(45,91,214,.16);
+  --shadow:0 8px 24px rgba(20,30,60,.14);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:var(--bg-deepest); color:var(--text);
+  line-height:1.6; -webkit-font-smoothing:antialiased; overflow:hidden;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+code,kbd,pre{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Consolas,monospace}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.skip-link{position:absolute;left:-999px;top:0;z-index:200;background:var(--accent);
+  color:#fff;padding:8px 14px;border-radius:0 0 8px 0}
+.skip-link:focus{left:0}
+
+/* ---- Header -------------------------------------------------------- */
+#header{
+  position:fixed;top:0;left:0;right:0;height:56px;z-index:60;
+  display:flex;align-items:center;gap:14px;padding:0 16px;
+  background:var(--bg);border-bottom:1px solid var(--border);
+}
+#header .brand{display:flex;align-items:center;gap:9px;font-weight:800;white-space:nowrap}
+#header .brand .logo{width:26px;height:26px;border-radius:7px;background:var(--accent);
+  display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px}
+#header .brand .title{font-size:14.5px;max-width:34vw;overflow:hidden;text-overflow:ellipsis}
+#header .ver{font-size:11px;color:var(--text-faint);font-weight:600;
+  border:1px solid var(--border);border-radius:20px;padding:2px 8px}
+#header .spacer{flex:1}
+.search-wrap{position:relative;display:flex;align-items:center}
+#search{background:var(--bg-elev);border:1px solid var(--border);color:var(--text);
+  border-radius:8px;padding:7px 30px 7px 30px;font-size:13px;width:230px;outline:none}
+#search:focus{border-color:var(--accent)}
+.search-wrap .ico{position:absolute;left:9px;opacity:.5;font-size:13px;pointer-events:none}
+#search-count{position:absolute;right:8px;font-size:10.5px;color:var(--text-faint)}
+.search-wrap.no-results #search{border-color:var(--bad)}
+.tool-btn{background:var(--bg-elev);border:1px solid var(--border);color:var(--text-soft);
+  border-radius:7px;width:32px;height:32px;cursor:pointer;font-size:14px;
+  display:grid;place-items:center}
+.tool-btn:hover{color:var(--text);border-color:var(--accent)}
+.zoom-grp{display:flex;align-items:center;gap:4px}
+#zoom-level{font-size:11px;color:var(--text-faint);min-width:34px;text-align:center}
+
+/* ---- View tabs (exec / tech) -------------------------------------- */
+#view-tabs{display:flex;gap:3px;background:var(--bg-elev);border:1px solid var(--border);
+  border-radius:8px;padding:3px}
+.view-tab{background:transparent;border:0;color:var(--text-faint);cursor:pointer;
+  font-size:12px;font-weight:600;padding:5px 11px;border-radius:6px}
+.view-tab.active{background:var(--accent);color:#fff}
+
+/* ---- Sidebar ------------------------------------------------------- */
+#sidebar{
+  position:fixed;top:56px;left:0;bottom:0;width:248px;z-index:50;
+  background:var(--bg);border-right:1px solid var(--border);
+  overflow-y:auto;padding:14px 10px 40px;
+}
+#sidebar .nav-group{font-size:10.5px;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--text-faint);margin:16px 10px 6px}
+#sidebar a{display:block;color:var(--text-soft);font-size:13px;
+  padding:6px 10px;border-radius:7px;border-left:2px solid transparent}
+#sidebar a:hover{background:var(--bg-elev);color:var(--text);text-decoration:none}
+#sidebar a.active{background:var(--accent-soft);color:var(--accent-text);
+  border-left-color:var(--accent);font-weight:600}
+#sidebar a .badge{float:right;font-size:9.5px;background:var(--accent-soft);
+  color:var(--accent-text);border-radius:10px;padding:1px 6px;font-weight:700}
+
+/* ---- Viewport + canvas -------------------------------------------- */
+#viewport{
+  position:fixed;top:56px;left:248px;right:0;bottom:0;
+  overflow:auto;scroll-behavior:smooth;background:var(--bg-deepest);
+}
+#canvas{transform-origin:top center;transition:transform .12s ease;
+  padding:30px 28px 120px;margin:0 auto;max-width:1000px}
+body[data-layout="canvas"] #viewport{cursor:grab}
+body[data-layout="canvas"] #viewport.panning{cursor:grabbing;scroll-behavior:auto}
+body[data-layout="canvas"] #canvas{max-width:1700px}
+
+/* ---- Cards --------------------------------------------------------- */
+.card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:14px;
+  padding:26px 30px;margin:0 0 22px;box-shadow:var(--shadow);
+  scroll-margin-top:30px;
+}
+.card.match{outline:1px solid var(--accent)}
+.card.dim{opacity:.32;filter:saturate(.4)}
+.card.hero{background:linear-gradient(135deg,var(--bg-elev),var(--bg-card));
+  border-color:var(--accent)}
+.card.hero h1{font-size:30px;font-weight:800;line-height:1.2;letter-spacing:-.01em}
+.card.hero .subject{color:var(--accent-text);font-weight:600;font-size:15px;margin-top:6px}
+.meta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px;font-size:12.5px;
+  color:var(--text-soft)}
+.meta-row b{color:var(--text);font-weight:600}
+
+h2{font-size:21px;font-weight:700;margin:2px 0 12px;letter-spacing:-.005em}
+h3{font-size:16px;font-weight:600;margin:20px 0 8px;color:var(--text)}
+.card p{margin:10px 0;color:var(--text-soft)}
+.card p strong,.card li strong{color:var(--text)}
+.card ul,.card ol{margin:10px 0 10px 22px;color:var(--text-soft)}
+.card li{margin:5px 0}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:6px}
+
+/* paragraph-level deep-link / bookmark anchor */
+.anchored{position:relative}
+.anchor-link{position:absolute;left:-22px;top:3px;opacity:0;font-size:14px;
+  color:var(--text-faint);text-decoration:none;transition:opacity .12s}
+.anchored:hover .anchor-link{opacity:1}
+.anchor-link:hover{color:var(--accent)}
+
+/* highlight flashes */
+.flash{animation:flash 3s ease}
+@keyframes flash{0%,55%{background:var(--flash)}100%{background:transparent}}
+:target{scroll-margin-top:30px}
+
+/* callouts */
+.callout{border-left:3px solid var(--accent);background:var(--bg-elev);
+  border-radius:0 9px 9px 0;padding:12px 16px;margin:14px 0}
+.callout.warn{border-left-color:var(--warn)}
+.callout.disclaimer{border-left-color:var(--bad)}
+.callout .lead{font-weight:700;color:var(--text);font-size:12px;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+
+/* code + tables */
+pre[class*="language-"]{border:1px solid var(--border);border-radius:9px;
+  margin:12px 0;font-size:12.5px}
+:not(pre)>code{background:var(--code-bg);border:1px solid var(--border-soft);
+  border-radius:5px;padding:1px 5px;font-size:.88em}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13px}
+th,td{border:1px solid var(--border);padding:8px 11px;text-align:left}
+th{background:var(--bg-elev);color:var(--text);font-weight:600}
+
+/* checklist */
+.checklist{list-style:none;margin-left:0}
+.checklist li{display:flex;gap:9px;align-items:flex-start;margin:7px 0}
+.checklist input{margin-top:4px;accent-color:var(--accent);width:15px;height:15px}
+
+/* Mermaid */
+pre.mermaid{background:var(--bg-elev);border:1px solid var(--border);
+  border-radius:10px;padding:16px;text-align:center;overflow:auto}
+.diagram-caption{font-size:12px;color:var(--text-faint);text-align:center;margin-top:-8px}
+
+/* ---- References (APA) --------------------------------------------- */
+.apa-refs{list-style:none;margin-left:42px}
+.apa-refs li{font-size:13px;line-height:1.55;margin-bottom:11px;padding-left:0;
+  position:relative}
+.apa-refs li .ref-marker{position:absolute;left:-42px;width:36px;text-align:right;
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  color:var(--accent)}
+.apa-refs li em{color:var(--text)}
+.apa-refs li .retrieved{color:var(--text-faint);font-style:italic}
+.apa-refs li:target{background:var(--highlight);border-radius:6px;
+  outline:1px solid var(--warn);padding:6px 8px;margin-left:-8px}
+/* in-text citation marker */
+.cite{font-weight:600}
+sup .cite,a.cite{border-bottom:1px dotted var(--accent)}
+a.cite:hover{text-decoration:none;background:var(--accent-soft);border-radius:3px}
+
+/* ---- Minimap (canvas mode only) ----------------------------------- */
+#minimap{position:fixed;right:14px;top:70px;width:120px;height:170px;z-index:55;
+  background:var(--bg);border:1px solid var(--border);border-radius:10px;
+  padding:6px;display:none;box-shadow:var(--shadow)}
+body[data-layout="canvas"] #minimap{display:block}
+#minimap canvas{width:100%;height:100%;cursor:pointer;border-radius:6px}
+#minimap .mm-label{font-size:9px;color:var(--text-faint);text-align:center;
+  margin-bottom:3px;font-weight:700;letter-spacing:.06em}
+
+/* ---- AI-coach widget ---------------------------------------------- */
+#ai-coach-btn{position:fixed;z-index:58;background:var(--accent);color:#fff;
+  border:0;border-radius:24px;padding:11px 17px;font-size:13px;font-weight:700;
+  cursor:pointer;box-shadow:var(--shadow);display:flex;align-items:center;gap:7px}
+#ai-coach-btn:hover{filter:brightness(1.1)}
+/* single layout -> bottom-right */
+body[data-layout="single"] #ai-coach-btn{right:22px;bottom:22px}
+/* canvas layout -> top-right, under the toolbar (minimap occupies upper-right) */
+body[data-layout="canvas"] #ai-coach-btn{right:148px;top:70px;padding:8px 13px;font-size:12px}
+#ai-coach-panel{position:fixed;z-index:59;width:330px;max-width:92vw;
+  background:var(--bg-card);border:1px solid var(--accent);border-radius:14px;
+  box-shadow:var(--shadow);padding:16px;display:none}
+body[data-layout="single"] #ai-coach-panel{right:22px;bottom:74px}
+body[data-layout="canvas"] #ai-coach-panel{right:148px;top:112px}
+#ai-coach-panel.open{display:block}
+#ai-coach-panel .ac-head{display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:4px}
+#ai-coach-panel .ac-head b{font-size:13px}
+#ai-coach-panel .ac-ctx{font-size:11px;color:var(--text-faint);margin-bottom:10px}
+.ac-prompt{display:block;width:100%;text-align:left;background:var(--bg-elev);
+  border:1px solid var(--border);color:var(--text-soft);border-radius:8px;
+  padding:9px 11px;font-size:12px;margin-bottom:7px;cursor:pointer}
+.ac-prompt:hover{border-color:var(--accent);color:var(--text)}
+.ac-close{background:none;border:0;color:var(--text-faint);cursor:pointer;font-size:16px}
+.ac-note{font-size:10.5px;color:var(--text-faint);margin-top:4px}
+
+/* ---- Footer -------------------------------------------------------- */
+.doc-footer{text-align:center;color:var(--text-faint);font-size:12px;
+  padding:20px 0 0;border-top:1px solid var(--border);margin-top:10px}
+.doc-footer a{color:var(--text-soft)}
+
+/* visibility by view mode */
+body[data-view="exec"] [data-view-only="tech"]{display:none}
+body[data-view="tech"] [data-view-only="exec"]{display:none}
+
+/* ---- Responsive ---------------------------------------------------- */
+#sidebar-toggle{display:none}
+@media (max-width:900px){
+  #sidebar{transform:translateX(-100%);transition:transform .2s}
+  body.nav-open #sidebar{transform:translateX(0)}
+  #viewport{left:0}
+  #sidebar-toggle{display:grid}
+  #header .brand .title{max-width:48vw}
+  #search{width:150px}
+}
+
+/* ---- Print --------------------------------------------------------- */
+@media print{
+  body{overflow:visible}
+  #header,#sidebar,#minimap,#ai-coach-btn,#ai-coach-panel,#view-tabs,
+  .search-wrap,.zoom-grp,.anchor-link{display:none!important}
+  #viewport{position:static;overflow:visible;inset:auto}
+  #canvas{max-width:none;transform:none!important;padding:0}
+  .card{break-inside:avoid;box-shadow:none;border-color:#999}
+  body[data-view="exec"] [data-view-only="tech"],
+  body[data-view="tech"] [data-view-only="exec"]{display:revert}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:10px;color:#555}
+}
+</style>
+</head>
+
+<body data-layout="single" data-view="tech">
+<a class="skip-link" href="#hero">Skip to content</a>
+
+<!-- =================== HEADER =================== -->
+<header id="header">
+  <button class="tool-btn" id="sidebar-toggle" title="Toggle navigation" aria-label="Toggle navigation">☰</button>
+  <div class="brand">
+    <span class="logo" aria-hidden="true">D</span>
+    <!-- AI:FIELD SHORT_TITLE (brand text in the header bar) -->
+    <span class="title">Documentation Template</span>
+    <span class="ver" id="ver-badge">v0.1.0</span>
+  </div>
+  <div class="spacer"></div>
+
+  <div id="view-tabs" role="tablist" aria-label="Reading mode">
+    <button class="view-tab active" data-view="tech" role="tab" aria-selected="true">Full Detail</button>
+    <button class="view-tab" data-view="exec" role="tab" aria-selected="false">Executive</button>
+  </div>
+
+  <div class="search-wrap" id="search-wrap">
+    <span class="ico" aria-hidden="true">⌕</span>
+    <input id="search" type="search" placeholder="Search  ( / )" aria-label="Search the document" autocomplete="off">
+    <span id="search-count"></span>
+  </div>
+
+  <div class="zoom-grp">
+    <button class="tool-btn" id="zoom-out" title="Zoom out" aria-label="Zoom out">−</button>
+    <span id="zoom-level">100%</span>
+    <button class="tool-btn" id="zoom-in" title="Zoom in" aria-label="Zoom in">+</button>
+  </div>
+  <button class="tool-btn" id="theme-toggle" title="Toggle light / dark" aria-label="Toggle theme">◐</button>
+  <!-- AI:FIELD REPO_URL (bidi link target — the repository ROOT, not a file) -->
+  <a class="tool-btn" id="repo-link" href="https://github.com/drpaulcoleman/documentation-template"
+     title="Open the source repository" target="_blank" rel="noopener" aria-label="Source repository">⌥</a>
+</header>
+
+<!-- =================== SIDEBAR / TOC =================== -->
+<aside id="sidebar">
+  <nav aria-label="Table of contents">
+    <!--
+      AI-TEMPLATE:toc-entry  — one nav link per major section.
+      <a href="#SECTION_ID">SECTION TITLE</a>
+      Optional right-aligned tag:  <a href="#id">Title<span class="badge">A</span></a>
+      AI-TEMPLATE:END
+    -->
+    <div class="nav-group">Overview</div>
+    <a href="#hero">Title &amp; Metadata</a>
+    <a href="#bluf">Bottom Line Up Front</a>
+    <a href="#disclaimers">Disclaimers &amp; Attribution</a>
+
+    <div class="nav-group">Body</div>
+    <a href="#section-1">1 · Getting Started</a>
+    <a href="#section-2">2 · Authoring Content</a>
+    <a href="#section-3">3 · Diagramming</a>
+
+    <div class="nav-group">Guide</div>
+    <a href="#prompting-guide">4 · Prompting guide</a>
+
+    <div class="nav-group">Showcase</div>
+    <a href="#examples">Examples in production</a>
+
+    <div class="nav-group">Reference</div>
+    <a href="#appendix-a">Appendix A · Field Reference</a>
+    <a href="#references">References</a>
+  </nav>
+</aside>
+
+<!-- =================== MINIMAP (canvas layout only) =================== -->
+<div id="minimap" aria-hidden="true">
+  <div class="mm-label">MAP</div>
+  <canvas id="minimap-canvas" width="216" height="290"></canvas>
+</div>
+
+<!-- =================== AI-COACH WIDGET =================== -->
+<button id="ai-coach-btn" title="Get AI help with this section">✦ Ask AI</button>
+<div id="ai-coach-panel" role="dialog" aria-label="AI coach">
+  <div class="ac-head">
+    <b>✦ Ask AI about this section</b>
+    <button class="ac-close" id="ai-coach-close" aria-label="Close">✕</button>
+  </div>
+  <div class="ac-ctx" id="ai-coach-ctx">Section: —</div>
+  <div id="ai-coach-prompts"></div>
+  <div class="ac-note">Copies the prompt <em>and</em> a context line (this page's URL + section) so any AI can ground its answer.</div>
+</div>
+
+<!-- =================== MAIN CONTENT =================== -->
+<div id="viewport">
+<main id="canvas">
+
+  <!-- ============ HERO ============ -->
+  <section class="card hero" id="hero">
+    <div class="eyebrow">Documentation</div>
+    <!-- AI:FIELD DOC_TITLE -->
+    <h1>Documentation Template — Build AI-Assisted Single-Page Docs</h1>
+    <!-- AI:FIELD SUBJECT (one-line description of the document's subject) -->
+    <div class="subject">A reusable shell for standalone, GitHub Pages-hosted reference documents.</div>
+    <div class="meta-row">
+      <!-- AI:FIELD AUTHOR --><span>Author: <b>Dr. Paul Coleman</b></span>
+      <!-- AI:FIELD BUILD_VERSION --><span>Version: <b>0.1.0</b></span>
+      <!-- AI:FIELD LAST_MODIFIED --><span>Last modified: <b>2026-05-16</b></span>
+      <!-- AI:FIELD COPYRIGHT_YEAR --><span>© <b>2026</b></span>
+    </div>
+  </section>
+
+  <!-- ============ BLUF ============ -->
+  <section class="card" id="bluf">
+    <div class="eyebrow">Bottom Line Up Front</div>
+    <h2>What this document is</h2>
+    <p data-view-only="tech">
+      This is a <strong>generative AI documentation-template</strong> shell. On its own it renders
+      as a working demo of every feature a finished document gets: sidebar navigation
+      with scroll-spy, full-text search, browser-history-aware deep links, paragraph
+      bookmarking, Mermaid diagrams, an APA references section, dual reading modes,
+      and an AI-coach helper. Run <code>/initialize-project</code> to replace this
+      shell with your own subject matter.
+    </p>
+    <p data-view-only="exec">
+      <strong>Executive view.</strong> This shorter view is for readers who want the
+      conclusion without the supporting detail. Mark exec-only content with
+      <code>data-view-only="exec"</code> and detail-only content with
+      <code>data-view-only="tech"</code>.
+    </p>
+    <div class="callout">
+      <div class="lead">Open in Claude Code — then use these commands</div>
+      <p style="margin:4px 0 10px">
+        Claude Code runs in <strong>VS Code, Cursor, JetBrains</strong> (sidebar extension),
+        or any <strong>terminal</strong> (<code>claude</code> CLI). Once open in your cloned
+        repo, the following slash commands are available:
+      </p>
+      <table style="font-size:13px;width:100%;border-collapse:collapse">
+        <tbody>
+          <tr>
+            <td style="padding:5px 10px 5px 0;white-space:nowrap;vertical-align:top"><code>/plan &lt;subject&gt;</code></td>
+            <td style="padding:5px 0;color:var(--text-soft)">
+              Sets up the project (layout, metadata, git hooks, README), optionally downloads
+              references, then researches the subject and proposes an approved section outline.
+              Saves the plan to <code>references/CONTENT-PLAN.md</code>. Re-run any time to
+              restructure — does not overwrite content.
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:5px 10px 5px 0;white-space:nowrap;vertical-align:top"><code>/download &lt;url or topic&gt;</code></td>
+            <td style="padding:5px 0;color:var(--text-soft)">
+              Harvests web pages, PDFs, and search results (including Google Scholar) into
+              <code>references/</code>. Run as many times as you like — Claude reads
+              everything there as context when writing.
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:5px 10px 5px 0;white-space:nowrap;vertical-align:top"><code>/write [section]</code></td>
+            <td style="padding:5px 0;color:var(--text-soft)">
+              Generates full prose, diagrams, and citations from the plan and downloaded
+              references. Omit the argument to write everything; pass a section id to
+              rebuild just that section. Updates nav, ai-content-map, and llms.txt.
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:5px 10px 5px 0;white-space:nowrap;vertical-align:top"><code>/check</code></td>
+            <td style="padding:5px 0;color:var(--text-soft)">
+              Verifies factual claims, checks for dead or stale citations, and flags coverage
+              gaps. Offers a cross-model fact-check if other AI CLIs are installed.
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:5px 10px 5px 0;white-space:nowrap;vertical-align:top"><code>/enhance-document</code></td>
+            <td style="padding:5px 0;color:var(--text-soft)">
+              Audits UX, design, and world-class quality — feature utilisation, theme
+              appropriateness, information architecture, and "what would make this truly
+              outstanding?" Offers a cross-model design review and applies quick wins.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin:10px 0 2px;font-size:13px">
+        <strong>Typical Claude Code session:</strong>
+        <code>/plan</code> → approve the outline → <code>/download</code> more sources →
+        <code>/write</code> → review in browser → <code>/check</code> → <code>/enhance-document</code>
+        → commit and push. <strong>You direct; Claude authors.</strong>
+        See the <a href="#prompting-guide">Prompting guide</a> for conversation examples.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ DISCLAIMERS & ATTRIBUTION ============ -->
+  <section class="card" id="disclaimers">
+    <div class="eyebrow">Required Notice</div>
+    <h2>Disclaimers &amp; Attribution</h2>
+    <div class="callout disclaimer">
+      <div class="lead">Personal opinion — not official documentation</div>
+      <p style="margin:4px 0">
+        <!-- AI:FIELD DISCLAIMER_OPINION -->
+        This document presents the independent analysis and opinions of its author.
+        It is <strong>not</strong> official documentation, guidance, or a statement of
+        any vendor, employer, or organisation, and it does not speak for them.
+      </p>
+    </div>
+    <div class="callout warn">
+      <div class="lead">Employment disclosure</div>
+      <p style="margin:4px 0">
+        <!-- AI:FIELD DISCLAIMER_EMPLOYMENT (state any employment relationship with a
+             vendor discussed here; if none, say so explicitly) -->
+        The author discloses any employment or commercial relationship with vendors
+        discussed in this document here. Update this statement during
+        <code>/plan</code>; do not leave it generic if a relationship exists.
+      </p>
+    </div>
+    <h3>Trademarks &amp; copyright</h3>
+    <p>
+      <!-- AI:FIELD DISCLAIMER_TRADEMARKS -->
+      All product names, logos, and trademarks are the property of their respective
+      owners and are used here for identification and commentary only. Their use does
+      not imply endorsement.
+    </p>
+    <h3>Use of source material</h3>
+    <p>
+      Source material is <strong>synthesised, not copied</strong>. Direct quotations are
+      short, clearly quoted, and carry an in-text citation such as
+      <sup><a href="#ref-1" class="cite">[1]</a></sup> linking to a full entry in the
+      <a href="#references">References</a> section. Each reference records a
+      <em>Retrieved</em> date so readers can judge currency and trace provenance.
+    </p>
+  </section>
+
+  <!-- ============ SECTION 1 ============ -->
+  <section class="card" id="section-1">
+    <div class="eyebrow">Section 1</div>
+    <h2>Getting Started</h2>
+    <p>
+      Replace this section with your own content. Each major section is a
+      <code>&lt;section class="card" id="..."&gt;</code> with a matching sidebar link.
+      Keep ids short, lowercase, and hyphenated — they become the deep-link URL hash.
+    </p>
+    <h3>Reader features included</h3>
+    <ul>
+      <li><strong>Deep links &amp; history</strong> — every section and bookmarked
+        paragraph is addressable; browser back/forward retrace the reading trail.</li>
+      <li><strong>Search</strong> — press <kbd>/</kbd> to search; <kbd>Enter</kbd> /
+        <kbd>Shift+Enter</kbd> cycle matches; <kbd>Esc</kbd> clears.</li>
+      <li><strong>Persistent checklists</strong> — checkbox state is saved per reader
+        in <code>localStorage</code>.</li>
+    </ul>
+    <h3>Try a checklist</h3>
+    <ul class="checklist">
+      <li><input type="checkbox" id="ck-demo-1"><label for="ck-demo-1">Checkbox state survives reloads (give every checkbox an <code>id</code> starting <code>ck-</code>).</label></li>
+      <li><input type="checkbox" id="ck-demo-2"><label for="ck-demo-2">Reload the page — this stays checked.</label></li>
+    </ul>
+  </section>
+
+  <!-- ============ SECTION 2 ============ -->
+  <section class="card" id="section-2">
+    <div class="eyebrow">Section 2</div>
+    <h2>Authoring Content</h2>
+    <p class="anchored" id="p-bookmarking">
+      Any paragraph given an <code>id</code> and the class <code>anchored</code> gets a
+      hover bookmark handle (the ¶ to the left) for paragraph-level deep linking.
+    </p>
+    <p>
+      To add a section: copy the <code>AI-TEMPLATE:content-section</code> skeleton
+      (in an HTML comment below this card), give it a unique id, add a sidebar link
+      using the <code>AI-TEMPLATE:toc-entry</code> pattern, and write your content.
+    </p>
+    <div class="callout">
+      <div class="lead">Citation pattern</div>
+      In-text marker: <code>&lt;sup&gt;&lt;a href="#ref-2" class="cite"&gt;[2]&lt;/a&gt;&lt;/sup&gt;</code>
+      → it jumps to a numbered entry in <a href="#references">References</a> and
+      highlights it.
+    </div>
+  </section>
+
+  <!--
+    AI-TEMPLATE:content-section  — copy this markup OUT of the comment to add a section.
+    <section class="card" id="SECTION_ID">
+      <div class="eyebrow">Section N</div>
+      <h2>SECTION TITLE</h2>
+      <p>Body text. Cite sources with <sup><a href="#ref-N" class="cite">[N]</a></sup>.</p>
+    </section>
+    Also add to the sidebar:  <a href="#SECTION_ID">N · SECTION TITLE</a>
+    AI-TEMPLATE:END
+  -->
+
+  <!-- ============ SECTION 3 — DIAGRAMMING ============ -->
+  <section class="card" id="section-3">
+    <div class="eyebrow">Section 3</div>
+    <h2>Diagramming</h2>
+    <p>
+      Diagrams use <strong>Mermaid</strong>. Put the source in
+      <code>&lt;pre class="mermaid"&gt;</code>. Diagrams are rendered lazily and
+      re-rendered when the reading mode changes, so hidden diagrams still draw correctly.
+    </p>
+    <pre class="mermaid">
+flowchart LR
+    classDef start fill:#5b8cff,stroke:#5b8cff,color:#fff;
+    classDef step fill:#1d2636,stroke:#28324a,color:#eef2f8;
+    A["Reference material"]:::start --> B["AI synthesis"]:::step
+    B --> C["index.html"]:::step
+    C --> D["GitHub Pages"]:::start
+    click A call diagramNav('section-2')
+    </pre>
+    <div class="diagram-caption">Figure 1 — click the first node to jump to Section 2.</div>
+    <!--
+      AI-TEMPLATE:diagram — DIAGRAMMING RULES
+      - Wrap source in <pre class="mermaid"> ... </pre>.
+      - Define a classDef palette so colours are consistent across diagrams; reuse the
+        same class names everywhere.
+      - To make a node jump to a section, add:  click NODEID call diagramNav('SECTION_ID')
+      - Keep node labels short; use <br/> for deliberate line breaks.
+      - Add a <div class="diagram-caption">Figure N — ...</div> after each diagram.
+      AI-TEMPLATE:END
+    -->
+  </section>
+
+  <!-- ============ PROMPTING GUIDE ============ -->
+  <section class="card" id="prompting-guide">
+    <div class="eyebrow">Section 4</div>
+    <h2>Prompting guide — talking to Claude about your document</h2>
+    <p>
+      Every improvement to the document happens through conversation. These are
+      proven prompts for each stage of the workflow — copy, adapt, and combine them.
+      Replace <code>[section]</code> with an actual section id (e.g. <code>cost-model</code>),
+      and <code>[subject]</code> with your document's topic.
+    </p>
+
+    <h3>Starting a new document</h3>
+    <table>
+      <thead><tr><th style="width:55%">What to type</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td><code>/plan [your subject]</code></td><td>Sets up the project, downloads optional references, and designs an approved section outline. Nothing is written to the document yet.</td></tr>
+        <tr><td><code>/download [url or topic]</code></td><td>Harvests web pages, PDFs, and Google Scholar results into <code>references/</code>. Run as many times as you like before writing.</td></tr>
+        <tr><td><code>/write</code></td><td>Generates the full document from the approved plan and all downloaded references. Run after <code>/plan</code>.</td></tr>
+        <tr><td><code>Write the [section] section — focus on the practical implications for a non-technical reader.</code></td><td>Writes or rewrites a single section with a specific audience or angle.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Expanding and deepening content</h3>
+    <table>
+      <thead><tr><th style="width:55%">What to type</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td><code>The [section] section is too thin. Expand it to at least 600 words, add two concrete examples, and cite your sources.</code></td><td>Fleshes out a thin section with evidence and examples.</td></tr>
+        <tr><td><code>Add an executive summary paragraph to [section] — three sentences, conclusion-first, no jargon.</code></td><td>Adds a dual-view exec variant to a section.</td></tr>
+        <tr><td><code>Add a Mermaid diagram to [section] showing the relationship between [concept A] and [concept B].</code></td><td>Generates a clickable relationship or concept-map diagram and inserts it.</td></tr>
+        <tr><td><code>Add a Mermaid flowchart to [section] showing the decision process for [scenario].</code></td><td>Generates a decision-tree or process-flow diagram with yes/no branches.</td></tr>
+        <tr><td><code>Add a Mermaid sequence diagram to [section] showing how [actor A], [actor B], and [actor C] interact during [process].</code></td><td>Generates a message-flow diagram — great for API calls, auth flows, or multi-system processes.</td></tr>
+        <tr><td><code>Add a Mermaid architecture diagram to [section] showing the components of [system] and how data flows between them.</code></td><td>Generates a high-level system or data-flow diagram.</td></tr>
+        <tr><td><code>The diagram in [section] is hard to read. Simplify it — no more than 6 nodes, short labels, and make key nodes clickable links to the relevant sections.</code></td><td>Refactors an overcrowded diagram for clarity and adds deep-link navigation.</td></tr>
+        <tr><td><code>Add a checklist to [section] that a practitioner can follow step by step.</code></td><td>Creates a persistent, checkable task list.</td></tr>
+        <tr><td><code>Add a comparison table to [section] contrasting [option A] and [option B] across: cost, complexity, scalability, and risk.</code></td><td>Generates a structured comparison table with your chosen dimensions.</td></tr>
+        <tr><td><code>/download [url] — then update [section] with insights from that source.</code></td><td>Harvests a new reference and immediately incorporates it, adding the APA citation.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Adjusting tone and audience</h3>
+    <table>
+      <thead><tr><th style="width:55%">What to type</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td><code>Rewrite [section] for a C-suite audience — lead with business impact, cut technical detail by half.</code></td><td>Shifts register without losing substance.</td></tr>
+        <tr><td><code>Rewrite [section] for a hands-on practitioner who will implement this themselves. Add specific steps, commands, and gotchas.</code></td><td>Makes abstract guidance concrete and actionable for doers.</td></tr>
+        <tr><td><code>Rewrite [section] for a sales engineer who needs to explain [subject] to prospects without going deep technically.</code></td><td>Shifts to benefit-led language with analogies instead of mechanics.</td></tr>
+        <tr><td><code>Rewrite [section] for a skeptical audience — anticipate objections and address the top three directly.</code></td><td>Adds counter-argument handling and evidence-based reassurance.</td></tr>
+        <tr><td><code>Simplify [section] to a reading level suitable for a smart high-school student with no background in [subject]. Replace every acronym, define every term on first use, and use everyday analogies.</code></td><td>Dramatically lowers the reading barrier for a broad or mixed audience.</td></tr>
+        <tr><td><code>The document mixes formal and conversational tone inconsistently. Standardise the whole document to a professional but approachable register — clear sentences, active voice, no passive constructions.</code></td><td>Runs a consistency pass across all sections for voice and tone.</td></tr>
+        <tr><td><code>Make [section] more concise — cut it by 30% without losing the key points.</code></td><td>Tightens verbose prose.</td></tr>
+        <tr><td><code>The [section] section uses too much jargon. Rewrite it for someone new to [subject].</code></td><td>Makes a dense section accessible without dumbing it down.</td></tr>
+        <tr><td><code>Add a callout box to [section] highlighting the single most important takeaway.</code></td><td>Inserts a styled callout with the key insight.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Restructuring</h3>
+    <table>
+      <thead><tr><th style="width:55%">What to type</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td><code>I want to add a new section between [section-a] and [section-b] covering [topic]. Write it and update the sidebar.</code></td><td>Inserts a new section and keeps nav in sync.</td></tr>
+        <tr><td><code>/plan</code> (re-run on existing doc)</td><td>Re-researches the subject and proposes a revised structure without touching existing content. Use when the scope of the document has grown.</td></tr>
+        <tr><td><code>Split [section] into two sections: one covering [topic A] and one covering [topic B].</code></td><td>Divides an overloaded section cleanly.</td></tr>
+        <tr><td><code>Merge [section-a] and [section-b] into a single section. Keep the best material from both.</code></td><td>Consolidates thin or overlapping sections.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Citations and references</h3>
+    <table>
+      <thead><tr><th style="width:55%">What to type</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td><code>Review the whole document and add citations anywhere a factual claim is made without one.</code></td><td>Systematic citation pass across all sections.</td></tr>
+        <tr><td><code>The accuracy check flagged [claim] as disputed. Research the correct position and rewrite that paragraph.</code></td><td>Fixes a specific accuracy issue identified by <code>/check</code>.</td></tr>
+        <tr><td><code>References [1] and [3] are dead links. Find replacement sources and update the citations.</code></td><td>Replaces broken references with live, current ones.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Iterating after audits</h3>
+    <table>
+      <thead><tr><th style="width:55%">What to type</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td><code>/check</code></td><td>Runs a full accuracy, citation, and coverage audit. Produces a remedies report in <code>references/</code>.</td></tr>
+        <tr><td><code>/enhance-document</code></td><td>Audits UX, design, and world-class quality. Produces an enhancement report and offers to apply quick wins.</td></tr>
+        <tr><td><code>Apply the quick-win enhancements from the enhancement report.</code></td><td>Applies the low-effort, high-impact improvements immediately.</td></tr>
+        <tr><td><code>The audit found [topic] is a coverage gap. Write a new section covering it thoroughly.</code></td><td>Expands the document to address a gap flagged by <code>/check</code>.</td></tr>
+        <tr><td><code>Review the ai-content-map and update any section summaries that no longer match the current content.</code></td><td>Keeps the machine-readable layer accurate after edits.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ EXAMPLES IN PRODUCTION ============ -->
+  <section class="card" id="examples">
+    <div class="eyebrow">Built with this template</div>
+    <h2>Examples in production</h2>
+    <p>
+      These documents started as a fresh clone of this template. Claude Code downloaded
+      reference material, built the content from those sources, and published each one
+      to GitHub Pages — no manual HTML editing involved.
+    </p>
+    <table>
+      <thead>
+        <tr><th>Document</th><th>Subject</th><th>Repo</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="https://drpaulcoleman.github.io/agentforce-mythos-hardening/" target="_blank" rel="noopener">Agentforce Mythos &amp; Hardening</a></td>
+          <td>Salesforce Agentforce security analysis and hardening patterns</td>
+          <td><a href="https://github.com/drpaulcoleman/agentforce-mythos-hardening" target="_blank" rel="noopener">↗</a></td>
+        </tr>
+        <tr>
+          <td><a href="https://drpaulcoleman.github.io/agentforce-cost-gateway/" target="_blank" rel="noopener">Agentforce Cost Gateway</a></td>
+          <td>Cost management and gateway architecture for Agentforce deployments</td>
+          <td><a href="https://github.com/drpaulcoleman/agentforce-cost-gateway" target="_blank" rel="noopener">↗</a></td>
+        </tr>
+        <tr>
+          <td><a href="https://drpaulcoleman.github.io/salesforce-ldv-cheatsheet/" target="_blank" rel="noopener">Salesforce LDV Cheat Sheet</a></td>
+          <td>Large Data Volumes patterns, limits, and best practices for Salesforce</td>
+          <td><a href="https://github.com/drpaulcoleman/salesforce-ldv-cheatsheet" target="_blank" rel="noopener">↗</a></td>
+        </tr>
+        <tr>
+          <td><a href="https://drpaulcoleman.github.io/heroku-migration/" target="_blank" rel="noopener">Heroku Migration Guide</a></td>
+          <td>Patterns and considerations for migrating applications off Heroku</td>
+          <td><a href="https://github.com/drpaulcoleman/heroku-migration" target="_blank" rel="noopener">↗</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ APPENDIX A ============ -->
+  <section class="card" id="appendix-a">
+    <div class="eyebrow">Appendix A</div>
+    <h2>Field Reference</h2>
+    <p>Appendices hold supporting detail. They are ordinary cards — duplicate the
+       <code>AI-TEMPLATE:content-section</code> skeleton and label them Appendix A, B, C…</p>
+    <table>
+      <thead><tr><th>Marker</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>AI:FIELD</code></td><td>A single replaceable value (title, author, date…).</td></tr>
+        <tr><td><code>AI-TEMPLATE</code></td><td>A copyable skeleton for a repeatable block.</td></tr>
+        <tr><td><code>ai-template-manifest</code></td><td>Hidden JSON listing every field and block.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!--
+    AI-TEMPLATE:appendix — same as content-section; label it "Appendix X".
+    AI-TEMPLATE:END
+  -->
+
+  <!-- ============ REFERENCES (APA) ============ -->
+  <section class="card" id="references">
+    <div class="eyebrow">Sources</div>
+    <h2>References</h2>
+    <p style="font-size:12.5px;color:var(--text-faint)">
+      APA 7th-edition style. In-text markers <code>[N]</code> link here; each web source
+      records the date it was retrieved. Click a marker to jump and highlight an entry.
+    </p>
+    <ol class="apa-refs" id="ref-list">
+      <li id="ref-1">
+        <span class="ref-marker">[1]</span>
+        Author, A. A. (Year). <em>Title of the work</em>. Publisher.
+        <span class="retrieved">Retrieved Month D, Year, from</span>
+        <a href="https://example.com" target="_blank" rel="noopener">https://example.com</a>
+      </li>
+      <li id="ref-2">
+        <span class="ref-marker">[2]</span>
+        Organisation. (Year). <em>Title of the page or report</em>.
+        <span class="retrieved">Retrieved Month D, Year, from</span>
+        <a href="https://example.org" target="_blank" rel="noopener">https://example.org</a>
+      </li>
+    </ol>
+    <!--
+      AI-TEMPLATE:reference-entry  — one <li> per source, numbered in citation order.
+      <li id="ref-N">
+        <span class="ref-marker">[N]</span>
+        Author, A. A. (Year). <em>Title</em>. Publisher.
+        <span class="retrieved">Retrieved Month D, Year, from</span>
+        <a href="URL" target="_blank" rel="noopener">URL</a>
+      </li>
+      AI-TEMPLATE:END
+    -->
+  </section>
+
+  <footer class="doc-footer">
+    <!-- AI:FIELD AUTHOR --><span>© <!-- AI:FIELD COPYRIGHT_YEAR -->2026 Dr. Paul Coleman.</span>
+    Built from the
+    <!-- AI:FIELD REPO_URL -->
+    <a href="https://github.com/drpaulcoleman/documentation-template" target="_blank" rel="noopener">documentation-template</a>.
+    &nbsp;·&nbsp; <a href="#hero">Back to top ↑</a>
+  </footer>
+
+</main>
+</div>
+
+<!-- =================== AI CONTENT MAP (machine-readable, non-visible) =========
+  A section-by-section index of THIS document's published content, for other AI
+  systems that reference or cite it. Maintain one entry per content section: when
+  you add/rename/remove a section, update this map. Summaries here are authoritative
+  — a consuming AI should quote sparingly and attribute via the section anchor. -->
+<script type="application/json" id="ai-content-map">
+{
+  "document": {
+    "title": "Documentation Template — Build AI-Assisted Single-Page Docs",
+    "subject": "A reusable shell for standalone, GitHub Pages-hosted reference documents.",
+    "author": "Dr. Paul Coleman",
+    "version": "0.1.0",
+    "lastModified": "2026-05-16",
+    "canonicalUrl": "https://drpaulcoleman.github.io/documentation-template/"
+  },
+  "aiGuidance": "Reference a section by its anchor: canonicalUrl + '#' + section id. The summaries below are authoritative. Quote sparingly and attribute; do not reproduce sections wholesale.",
+  "sections": [
+    {"id": "hero",        "title": "Title & Metadata",          "type": "frontmatter", "summary": "Document title, subject, author, version, and date."},
+    {"id": "bluf",        "title": "Bottom Line Up Front",       "type": "summary",     "summary": "What the document is and the single most important takeaway."},
+    {"id": "disclaimers", "title": "Disclaimers & Attribution",  "type": "notice",      "summary": "Author's-opinion notice, employment disclosure, trademark and source-use policy."},
+    {"id": "section-1",   "title": "Getting Started",            "type": "content",     "summary": "Placeholder — replace with the first content section."},
+    {"id": "section-2",   "title": "Authoring Content",          "type": "content",     "summary": "Placeholder — replace with a content section."},
+    {"id": "section-3",   "title": "Diagramming",                "type": "content",     "summary": "Placeholder — replace with a content section."},
+    {"id": "examples",    "title": "Examples in production",      "type": "content",     "summary": "Four documents built with this template: Agentforce Mythos & Hardening, Agentforce Cost Gateway, Salesforce LDV Cheat Sheet, Heroku Migration Guide."},
+    {"id": "appendix-a",  "title": "Appendix A — Field Reference","type": "appendix",   "summary": "Placeholder appendix — supporting detail."},
+    {"id": "references",  "title": "References",                 "type": "references",  "summary": "APA-style source list; in-text [N] markers link here."}
+  ]
+}
+</script>
+
+<!-- =================== AI TEMPLATE MANIFEST (machine-readable, non-visible) ===== -->
+<script type="application/json" id="ai-template-manifest">
+{
+  "templateVersion": "0.1.0",
+  "purpose": "Authoritative map of replaceable fields and repeatable blocks for AI-driven builds of this single-page documentation site.",
+  "fieldMarker": "<!-- AI:FIELD NAME --> precedes or wraps a value. Wrapped form: <!-- AI:FIELD NAME -->value<!-- /AI:FIELD NAME -->. For <title>/<meta>, the comment sits on the preceding line.",
+  "fields": [
+    {"token": "DOC_TITLE",   "where": "<title>, og:title, twitter:title, hero <h1>", "desc": "Full document title."},
+    {"token": "SHORT_TITLE", "where": "header brand text", "desc": "Short title for the header bar."},
+    {"token": "SUBJECT",     "where": "hero .subject", "desc": "One-line description of the subject."},
+    {"token": "DESCRIPTION", "where": "meta description, og/twitter description", "desc": "SEO/social description, ~155 chars."},
+    {"token": "AUTHOR",      "where": "meta author, hero meta-row, footer", "desc": "Author display name."},
+    {"token": "BUILD_VERSION","where": "meta document-version, #ver-badge, hero meta-row", "desc": "Document version, e.g. 1.0.0."},
+    {"token": "LAST_MODIFIED","where": "meta last-modified, hero meta-row", "desc": "YYYY-MM-DD; the bump-last-modified hook maintains this."},
+    {"token": "COPYRIGHT_YEAR","where": "hero meta-row, footer", "desc": "Copyright year."},
+    {"token": "REPO_URL",    "where": "#repo-link, footer", "desc": "Repository ROOT URL (https://github.com/owner/repo) — never a file path."},
+    {"token": "PAGES_URL",   "where": "<link rel=canonical>, og:url", "desc": "Published GitHub Pages URL of this document."},
+    {"token": "DISCLAIMER_OPINION",    "where": "#disclaimers", "desc": "Personal-opinion / not-official-documentation statement."},
+    {"token": "DISCLAIMER_EMPLOYMENT", "where": "#disclaimers", "desc": "Employment/commercial relationship disclosure for vendors discussed."},
+    {"token": "DISCLAIMER_TRADEMARKS", "where": "#disclaimers", "desc": "Trademark and copyright acknowledgement."}
+  ],
+  "repeatableBlocks": [
+    {"name": "toc-entry",        "desc": "Sidebar nav link for a major section."},
+    {"name": "content-section",  "desc": "A main content card. Pair every one with a toc-entry."},
+    {"name": "appendix",         "desc": "Supporting-detail card labelled Appendix X."},
+    {"name": "reference-entry",  "desc": "One APA <li> in #ref-list, numbered in citation order, with a Retrieved date."},
+    {"name": "diagram",          "desc": "Mermaid <pre class=mermaid> block plus the diagramming rules."}
+  ],
+  "rules": [
+    "This document is the author's own analysis, not official vendor documentation.",
+    "Never paste large passages of third-party content; synthesise in your own words.",
+    "Direct quotes must be short, quoted, and cited with an in-text [N] marker.",
+    "Every external source needs an APA entry with a 'Retrieved <date>' marker.",
+    "Acknowledge trademarks and copyright in the Disclaimers card.",
+    "Section ids are short, lowercase, hyphenated; each needs a matching sidebar link.",
+    "Layout mode is body[data-layout]: 'single' or 'canvas' — set by /initialize-project."
+  ]
+}
+</script>
+
+<!-- =================== LIBRARIES =================== -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+<!-- =================== APPLICATION SCRIPT =================== -->
+<script>
+(function () {
+  "use strict";
+  var $  = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+
+  var html     = document.documentElement;
+  var body     = document.body;
+  var viewport = $("#viewport");
+  var canvas   = $("#canvas");
+
+  /* ---------- Theme ------------------------------------------------ */
+  function applyTheme(t) {
+    html.setAttribute("data-theme", t);
+    try { localStorage.setItem("doc-theme", t); } catch (e) {}
+  }
+  try {
+    var savedTheme = localStorage.getItem("doc-theme");
+    if (savedTheme) applyTheme(savedTheme);
+  } catch (e) {}
+  $("#theme-toggle").addEventListener("click", function () {
+    applyTheme(html.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    drawMinimap();
+  });
+
+  /* ---------- Mermaid (view-aware lazy render) --------------------- */
+  if (window.mermaid) {
+    mermaid.initialize({ startOnLoad: false, theme: "dark", securityLevel: "loose",
+      fontFamily: "Inter, sans-serif", flowchart: { curve: "basis", useMaxWidth: true } });
+  }
+  function captureMermaid() {
+    $$("pre.mermaid").forEach(function (pre) {
+      if (!pre.dataset.src) pre.dataset.src = pre.textContent;
+    });
+  }
+  function renderMermaid() {
+    if (!window.mermaid || !mermaid.run) return;
+    var targets = $$("pre.mermaid").filter(function (pre) {
+      if (pre.offsetParent === null) return false;          // skip hidden
+      if (pre.dataset.done === "1") return false;
+      if (pre.dataset.src) { pre.textContent = pre.dataset.src; }
+      pre.removeAttribute("data-processed");
+      return true;
+    });
+    if (!targets.length) return;
+    try {
+      mermaid.run({ nodes: targets }).then(function () {
+        targets.forEach(function (p) { if (p.querySelector("svg")) p.dataset.done = "1"; });
+        drawMinimap();
+      }).catch(function (e) { console.warn("Mermaid:", e); });
+    } catch (e) { console.warn("Mermaid:", e); }
+  }
+  captureMermaid();
+
+  /* ---------- View mode (exec / tech) ------------------------------ */
+  function setView(mode, silent) {
+    if (mode !== "exec" && mode !== "tech") mode = "tech";
+    body.setAttribute("data-view", mode);
+    $$(".view-tab").forEach(function (b) {
+      var on = b.dataset.view === mode;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    try { sessionStorage.setItem("doc-view", mode); } catch (e) {}
+    requestAnimationFrame(function () { setTimeout(renderMermaid, 40); });
+    if (!silent) drawMinimap();
+  }
+  $$(".view-tab").forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (body.getAttribute("data-view") === b.dataset.view) return;
+      setView(b.dataset.view);
+      pushHistory(currentHashId());
+    });
+  });
+  try {
+    var sv = sessionStorage.getItem("doc-view");
+    if (sv === "exec") setView("exec", true);
+  } catch (e) {}
+
+  /* ---------- Scroll + smooth navigation --------------------------- */
+  function headerOffset() { return 20; }
+
+  function scrollToEl(el) {
+    if (!el) return;
+    var top = el.getBoundingClientRect().top - viewport.getBoundingClientRect().top
+              + viewport.scrollTop - headerOffset();
+    viewport.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
+    setTimeout(function () { el.classList.remove("flash"); }, 3100);
+  }
+
+  /* ---------- History-aware deep linking --------------------------- */
+  var suppress = false, lastId = null;
+
+  function currentHashId() { return (location.hash || "").slice(1) || null; }
+
+  function pushHistory(id) {
+    if (suppress) return;
+    var url = location.pathname + location.search + (id ? "#" + id : "");
+    if (id === lastId && (location.hash || "").slice(1) === (id || "")) return;
+    suppress = true;
+    try {
+      history.pushState({ view: body.getAttribute("data-view"), id: id }, "", url);
+    } catch (e) {}
+    suppress = false;
+    lastId = id;
+  }
+
+  function navigateTo(id, opts) {
+    opts = opts || {};
+    var el = document.getElementById(id);
+    if (!el) return false;
+    scrollToEl(el);
+    if (!opts.skipHistory) pushHistory(id);
+    lastId = id;
+    activeId = id;
+    setActiveNav(id);
+    return true;
+  }
+
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var id = a.getAttribute("href").slice(1);
+    if (!id) return;
+    if (navigateTo(id)) e.preventDefault();
+  }, true);
+
+  window.addEventListener("popstate", function (e) {
+    if (suppress) return;
+    var id = (e.state && e.state.id) || currentHashId();
+    var v  = e.state && e.state.view;
+    if (v && v !== body.getAttribute("data-view")) setView(v, true);
+    if (id) navigateTo(id, { skipHistory: true });
+    else viewport.scrollTo({ top: 0, behavior: "smooth" });
+    lastId = id;
+  });
+
+  (function seedHistory() {
+    var id = currentHashId();
+    try { history.replaceState({ view: body.getAttribute("data-view"), id: id }, "",
+          location.pathname + location.search + (location.hash || "")); } catch (e) {}
+    lastId = id;
+  })();
+
+  /* ---------- Paragraph bookmark handles --------------------------- */
+  $$(".anchored[id]").forEach(function (p) {
+    var a = document.createElement("a");
+    a.className = "anchor-link"; a.href = "#" + p.id;
+    a.textContent = "¶"; a.title = "Bookmark / copy link to this paragraph";
+    a.setAttribute("aria-label", "Link to this paragraph");
+    p.insertBefore(a, p.firstChild);
+  });
+
+  /* ---------- Scroll-spy + debounced scroll-history ---------------- */
+  /* Add/rename sections freely — spy watches all .card[id] elements   */
+  /* automatically; nav links just need a matching href="#section-id". */
+  var navLinks = $$('#sidebar nav a[href^="#"]');
+  function setActiveNav(id) {
+    navLinks.forEach(function (l) {
+      l.classList.toggle("active", l.getAttribute("href") === "#" + id);
+    });
+  }
+
+  var sections = $$(".card[id]");
+  var activeId = null;        // currently-active section id (also read by AI coach)
+  var scrollHistTimer = null;
+  var visible = {};
+  sections.forEach(function (s) { visible[s.id] = false; });
+
+  function activateSection(id) {
+    if (!id || id === activeId) return;
+    activeId = id;
+    setActiveNav(id);
+    clearTimeout(scrollHistTimer);
+    scrollHistTimer = setTimeout(function () { pushHistory(id); }, 3000);
+  }
+
+  /* IntersectionObserver: reliable across zoom, CSS transforms, and layout
+     modes — no offsetTop arithmetic needed. rootMargin keeps the "active zone"
+     in the upper third of the viewport so the section being read is highlighted. */
+  if (window.IntersectionObserver) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+      for (var i = 0; i < sections.length; i++) {
+        if (visible[sections[i].id]) { activateSection(sections[i].id); break; }
+      }
+    }, { root: viewport, rootMargin: "-10% 0px -55% 0px", threshold: 0 });
+    sections.forEach(function (s) { spy.observe(s); });
+  }
+
+  /* Scroll listener: redraws minimap; also runs offsetTop fallback spy
+     for the rare browser without IntersectionObserver support. */
+  var rafPending = false;
+  viewport.addEventListener("scroll", function () {
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(function () {
+      rafPending = false;
+      if (!window.IntersectionObserver) {
+        var line = viewport.scrollTop + 140;
+        var cur = null;
+        sections.forEach(function (s) {
+          if (s.offsetParent !== null && s.offsetTop <= line) cur = s;
+        });
+        if (cur) activateSection(cur.id);
+      }
+      drawMinimap();
+    });
+  }, { passive: true });
+
+  /* ---------- Full-text search ------------------------------------- */
+  var search = $("#search"), searchWrap = $("#search-wrap"),
+      searchCount = $("#search-count");
+  var matches = [], matchIdx = -1;
+
+  function runSearch(q) {
+    matches = []; matchIdx = -1;
+    if (!q) {
+      sections.forEach(function (c) { c.classList.remove("dim", "match"); });
+      searchWrap.classList.remove("no-results");
+      searchCount.textContent = "";
+      return;
+    }
+    sections.forEach(function (c) {
+      if (c.offsetParent === null) { c.classList.remove("dim", "match"); return; }
+      var hit = (c.textContent || "").toLowerCase().indexOf(q) !== -1;
+      c.classList.toggle("match", hit);
+      c.classList.toggle("dim", !hit);
+      if (hit) matches.push(c);
+    });
+    searchWrap.classList.toggle("no-results", matches.length === 0);
+    if (matches.length) {
+      matchIdx = 0; searchCount.textContent = "1/" + matches.length;
+      scrollToEl(matches[0]);
+    } else {
+      searchCount.textContent = "0";
+    }
+  }
+  function cycleSearch(fwd) {
+    if (!matches.length) return;
+    matchIdx = (matchIdx + (fwd ? 1 : -1) + matches.length) % matches.length;
+    searchCount.textContent = (matchIdx + 1) + "/" + matches.length;
+    scrollToEl(matches[matchIdx]);
+  }
+  search.addEventListener("input", function (e) {
+    runSearch(e.target.value.toLowerCase().trim());
+  });
+  search.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); cycleSearch(!e.shiftKey); }
+    else if (e.key === "Escape") { e.preventDefault(); search.value = ""; runSearch(""); search.blur(); }
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "/" && e.target.tagName !== "INPUT" && e.target.tagName !== "TEXTAREA") {
+      e.preventDefault(); search.focus();
+    }
+  });
+
+  /* ---------- Checklist persistence -------------------------------- */
+  $$('input[type="checkbox"][id^="ck-"]').forEach(function (box) {
+    var key = "doc-ck:" + box.id;
+    try { if (localStorage.getItem(key) === "1") box.checked = true; } catch (e) {}
+    box.addEventListener("change", function () {
+      try {
+        if (box.checked) localStorage.setItem(key, "1");
+        else localStorage.removeItem(key);
+      } catch (e) {}
+    });
+  });
+
+  /* ---------- Zoom ------------------------------------------------- */
+  var zoom = 1;
+  function setZoom(z) {
+    zoom = Math.max(0.5, Math.min(1.8, Math.round(z * 100) / 100));
+    canvas.style.transform = "scale(" + zoom + ")";
+    $("#zoom-level").textContent = Math.round(zoom * 100) + "%";
+    drawMinimap();
+  }
+  $("#zoom-in").addEventListener("click", function () { setZoom(zoom + 0.1); });
+  $("#zoom-out").addEventListener("click", function () { setZoom(zoom - 0.1); });
+  document.addEventListener("keydown", function (e) {
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+    if (e.key === "+" || e.key === "=") setZoom(zoom + 0.1);
+    else if (e.key === "-") setZoom(zoom - 0.1);
+    else if (e.key === "0") setZoom(1);
+  });
+
+  /* ---------- Drag-to-pan (canvas layout) -------------------------- */
+  var panning = false, panX = 0, panY = 0, startX = 0, startY = 0;
+  viewport.addEventListener("mousedown", function (e) {
+    if (body.getAttribute("data-layout") !== "canvas") return;
+    if (e.target.closest("a,button,input,textarea,select,pre,.card a")) return;
+    panning = true; viewport.classList.add("panning");
+    startX = e.clientX; startY = e.clientY;
+    panX = viewport.scrollLeft; panY = viewport.scrollTop;
+  });
+  window.addEventListener("mousemove", function (e) {
+    if (!panning) return;
+    viewport.scrollLeft = panX - (e.clientX - startX);
+    viewport.scrollTop  = panY - (e.clientY - startY);
+  });
+  window.addEventListener("mouseup", function () {
+    panning = false; viewport.classList.remove("panning");
+  });
+
+  /* ---------- Minimap (canvas layout) ------------------------------ */
+  var mmCanvas = $("#minimap-canvas");
+  function drawMinimap() {
+    if (body.getAttribute("data-layout") !== "canvas" || !mmCanvas) return;
+    var ctx = mmCanvas.getContext("2d");
+    var W = mmCanvas.width, H = mmCanvas.height;
+    var docH = viewport.scrollHeight || 1, docW = viewport.scrollWidth || 1;
+    var sx = W / docW, sy = H / docH;
+    var cs = getComputedStyle(html);
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = cs.getPropertyValue("--bg-elev").trim() || "#1d2636";
+    ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = cs.getPropertyValue("--accent-soft").trim() || "#243154";
+    sections.forEach(function (s) {
+      if (s.offsetParent === null) return;
+      ctx.fillRect(2, s.offsetTop * sy, W - 4, Math.max(2, s.offsetHeight * sy - 2));
+    });
+    ctx.strokeStyle = cs.getPropertyValue("--accent").trim() || "#5b8cff";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(viewport.scrollLeft * sx, viewport.scrollTop * sy,
+                   viewport.clientWidth * sx, viewport.clientHeight * sy);
+  }
+  if (mmCanvas) {
+    mmCanvas.addEventListener("click", function (e) {
+      var r = mmCanvas.getBoundingClientRect();
+      var fy = (e.clientY - r.top) / r.height;
+      viewport.scrollTo({ top: fy * viewport.scrollHeight - viewport.clientHeight / 2,
+                          behavior: "smooth" });
+    });
+  }
+
+  /* ---------- Diagram click navigation ----------------------------- */
+  window.diagramNav = function (id) {
+    if (!id) return;
+    var el = document.getElementById(id)
+          || document.getElementById(String(id).toLowerCase().replace(/\s+/g, "-"));
+    if (el) navigateTo(el.id);
+  };
+
+  /* ---------- AI-coach widget -------------------------------------- */
+  var coachBtn   = $("#ai-coach-btn");
+  var coachPanel = $("#ai-coach-panel");
+  var coachCtx   = $("#ai-coach-ctx");
+  var coachList  = $("#ai-coach-prompts");
+  /* Default, subject-agnostic prompts. /initialize-project may extend these. */
+  var PROMPTS = [
+    "Summarise this section in three plain-language sentences.",
+    "What is the single most important takeaway here?",
+    "Give a concrete real-world example of the concept in this section.",
+    "What should I do first based on this section, and why?",
+    "What are the most likely misconceptions about this topic?"
+  ];
+  function currentSection() {
+    return (activeId && document.getElementById(activeId)) || sections[0] || null;
+  }
+  function sectionTitle(sec) {
+    var h = sec && sec.querySelector("h1,h2");
+    return h ? h.textContent.trim() : "this document";
+  }
+  function buildPayload(prompt, sec) {
+    var canonical = ($('link[rel="canonical"]') || {}).href || location.href;
+    var anchor = sec && sec.id ? "#" + sec.id : "";
+    return "Context: I am reading the document at " + canonical + anchor +
+      ", currently in the section titled \"" + sectionTitle(sec) + "\". " +
+      "Please read that page (or that section) before answering, then ground your " +
+      "reply in the document.\n\n" + prompt;
+  }
+  function renderCoach() {
+    var sec = currentSection();
+    coachCtx.textContent = "Section: " + sectionTitle(sec);
+    coachList.innerHTML = "";
+    PROMPTS.forEach(function (p) {
+      var b = document.createElement("button");
+      b.className = "ac-prompt"; b.textContent = p;
+      b.addEventListener("click", function () {
+        var payload = buildPayload(p, sec);
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(payload).then(function () {
+            b.textContent = "✓ Copied — paste into your AI assistant";
+            setTimeout(function () { b.textContent = p; }, 1800);
+          });
+        }
+      });
+      coachList.appendChild(b);
+    });
+  }
+  coachBtn.addEventListener("click", function () {
+    var open = coachPanel.classList.toggle("open");
+    if (open) renderCoach();
+  });
+  $("#ai-coach-close").addEventListener("click", function () {
+    coachPanel.classList.remove("open");
+  });
+
+  /* ---------- Sidebar toggle (mobile) ------------------------------ */
+  $("#sidebar-toggle").addEventListener("click", function () {
+    body.classList.toggle("nav-open");
+  });
+  $$('#sidebar nav a').forEach(function (a) {
+    a.addEventListener("click", function () { body.classList.remove("nav-open"); });
+  });
+
+  /* ---------- Init ------------------------------------------------- */
+  function init() {
+    renderMermaid();
+    onScroll();
+    drawMinimap();
+    var id = currentHashId();
+    if (id) setTimeout(function () { navigateTo(id, { skipHistory: true }); }, 120);
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else { init(); }
+  window.addEventListener("resize", drawMinimap);
+})();
+</script>
+</body>
+</html>

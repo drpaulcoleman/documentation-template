@@ -1,0 +1,135 @@
+#!/bin/sh
+# =============================================================================
+#  documentation-template — pre-commit security gate
+# =============================================================================
+#  Stops secrets and unsafe / executable artifacts from being committed —
+#  a defence against supply-chain attacks and accidental credential leaks.
+#
+#  Runtime: pure POSIX sh + git. No Python or Node.js required.
+#
+#  ENABLE ONCE per clone (the /initialize-project command does this for you):
+#      git config core.hooksPath .githooks
+#  Verify with:  git config core.hooksPath   ->  should print  .githooks
+#
+#  If you have reviewed a flagged item and are CERTAIN it is safe, a human may
+#  override with:   git commit --no-verify
+#  AI assistants are blocked from using --no-verify by a separate guard.
+# =============================================================================
+set -u
+
+problems=0
+notes=0
+block() { problems=$((problems + 1)); printf '  [BLOCKED] %s\n' "$1"; }
+warn()  { notes=$((notes + 1));       printf '  [warning] %s\n' "$1"; }
+
+tmp="${TMPDIR:-/tmp}/dt-precommit.$$"
+git diff --cached --name-only --diff-filter=ACM > "$tmp" 2>/dev/null
+if [ ! -s "$tmp" ]; then rm -f "$tmp"; exit 0; fi
+
+printf '\npre-commit: scanning staged changes for secrets and unsafe artifacts...\n'
+
+# Binary types that ARE legitimate in a documentation repository.
+is_allowed_binary() {
+  case "$1" in
+    png|jpg|jpeg|gif|webp|svg|ico|bmp|pdf|woff|woff2|ttf|otf|eot|mp4|webm) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+# Compiled binaries and script-droppers — never legitimate here.
+is_executable_ext() {
+  case "$1" in
+    exe|dll|so|dylib|msi|dmg|pkg|app|com|scr|cpl|pif|hta|class|pyc|jar|bin|o|obj|vbs|vbe|jse|wsf|wsh) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  ext=$(printf '%s' "$f" | sed 's/.*\.//' | tr '[:upper:]' '[:lower:]')
+
+  # --- 1. Dangerous file types --------------------------------------------
+  if is_executable_ext "$ext"; then
+    block "'$f' is an executable / script-dropper ($ext). Documentation repos must
+            not contain compiled binaries or auto-run scripts. Unstage it:
+              git restore --staged \"$f\""
+    continue
+  fi
+
+  # --- 2. Unexpected binary content ---------------------------------------
+  numstat=$(git diff --cached --numstat -- "$f" 2>/dev/null | head -n1)
+  case "$numstat" in
+    -*)
+      if is_allowed_binary "$ext"; then
+        bytes=$( (wc -c < "$f") 2>/dev/null || echo 0 )
+        [ "${bytes:-0}" -gt 26214400 ] 2>/dev/null && \
+          warn "'$f' is large ($((bytes / 1048576)) MB). Big files bloat the repo —
+            consider keeping it out of git or in the git-ignored references/ folder."
+      else
+        block "'$f' is a binary file of an unexpected type ($ext). If it is a
+            document asset, use a standard type (png/jpg/svg/pdf/...). Otherwise
+            unstage it:  git restore --staged \"$f\""
+      fi
+      continue
+      ;;
+  esac
+
+  # --- 3. Secret & supply-chain content scan (text files) -----------------
+  added=$(git diff --cached --no-color -U0 -- "$f" 2>/dev/null | grep -E '^\+[^+]' || true)
+  [ -z "$added" ] && continue
+
+  if printf '%s\n' "$added" | grep -Eq -- '-----BEGIN [A-Z ]*PRIVATE KEY-----'; then
+    block "'$f' contains a PRIVATE KEY. Never commit private keys. Remove it and
+            rotate the key if it was real."
+  fi
+  if printf '%s\n' "$added" | grep -Eq 'AKIA[0-9A-Z]{16}'; then
+    block "'$f' contains what looks like an AWS access key. Remove it and rotate it."
+  fi
+  if printf '%s\n' "$added" | grep -Eq 'ghp_[0-9A-Za-z]{36}|github_pat_[0-9A-Za-z_]{20,}'; then
+    block "'$f' contains what looks like a GitHub token. Remove it and revoke it."
+  fi
+  if printf '%s\n' "$added" | grep -Eq 'AIza[0-9A-Za-z_-]{35}'; then
+    block "'$f' contains what looks like a Google API key. Remove it and rotate it."
+  fi
+  if printf '%s\n' "$added" | grep -Eq 'xox[baprs]-[0-9A-Za-z-]{10,}'; then
+    block "'$f' contains what looks like a Slack token. Remove it and rotate it."
+  fi
+  # Generic credential assignment with a real-looking value.
+  if printf '%s\n' "$added" \
+       | grep -Eiq '(password|passwd|secret|api[_-]?key|access[_-]?token|client[_-]?secret|auth[_-]?token)["'\'' ]*[:=][[:space:]]*["'\'']?[^[:space:]"'\'']{8,}' \
+       && ! printf '%s\n' "$added" \
+       | grep -Eiq '(password|passwd|secret|api[_-]?key|access[_-]?token|client[_-]?secret|auth[_-]?token)["'\'' ]*[:=][[:space:]]*["'\'']?(your[_-]|example|placeholder|changeme|change-me|xxxx|<[^>]*>|\*\*\*|dummy|sample|redacted|none|null|test1234|process\.env|getenv)'; then
+    block "'$f' appears to assign a real secret value (password / API key / token).
+            Replace it with a placeholder or load it from an environment variable.
+            If this is genuinely a harmless example, a human may use:
+              git commit --no-verify"
+  fi
+  # Supply-chain: piping a download straight into a shell.
+  if printf '%s\n' "$added" | grep -Eq '(curl|wget)[^|]*\|[[:space:]]*(sudo[[:space:]]+)?(sh|bash)\b'; then
+    block "'$f' pipes a downloaded script straight into a shell — a classic
+            supply-chain attack vector. Remove it."
+  fi
+  if printf '%s\n' "$added" | grep -Eiq 'iex[[:space:]]*\(.*(downloadstring|invoke-webrequest|new-object[[:space:]]+net\.webclient)'; then
+    block "'$f' downloads and executes remote code via PowerShell IEX. Remove it."
+  fi
+  if printf '%s\n' "$added" | grep -Eq 'eval[[:space:]]*\([[:space:]]*(atob|Buffer\.from|base64)'; then
+    warn "'$f' decodes-then-evaluates data (eval(atob(...))). This is a common way
+            to hide malicious code — confirm it is intentional and safe."
+  fi
+  if printf '%s\n' "$added" | grep -Eq '"postinstall"[[:space:]]*:'; then
+    warn "'$f' adds a package 'postinstall' script. Postinstall scripts run code on
+            install — confirm it is necessary and safe."
+  fi
+done < "$tmp"
+rm -f "$tmp"
+
+if [ "$notes" -gt 0 ]; then
+  printf '\n%s warning(s) above — review them, then commit again if they are expected.\n' "$notes"
+fi
+if [ "$problems" -gt 0 ]; then
+  printf '\nCOMMIT BLOCKED: %s issue(s) must be fixed first (see [BLOCKED] above).\n' "$problems"
+  printf 'This gate protects you from leaking secrets and committing unsafe files.\n\n'
+  exit 1
+fi
+
+printf 'pre-commit: clean. \n'
+exit 0

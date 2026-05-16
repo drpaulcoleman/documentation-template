@@ -1,0 +1,131 @@
+# ===========================================================================
+# documentation-template — .gitignore
+# ===========================================================================
+# This template is runtime-agnostic: the reference-harvester skill adapts to
+# whatever runtime is installed (Python / Node.js / PowerShell / shell), and the
+# docs/ folder may hold code samples in any language. The sections below ignore
+# the standard build, cache, and binary artifacts those runtimes produce.
+# Trim any section you don't need.
+# ===========================================================================
+
+# --- Local reference material ----------------------------------------------
+# references/ is a LOCAL-ONLY working area (downloaded pages, PDFs, the project
+# plan) aggregated for AI context. Never published. Its README.md is the single
+# tracked file so the folder survives a clone.
+references/*
+!references/README.md
+
+# --- Claude Code local-only artifacts --------------------------------------
+.claude/*.local.json
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+
+# --- Editor / OS clutter ----------------------------------------------------
+.DS_Store
+.AppleDouble
+Thumbs.db
+desktop.ini
+ehthumbs.db
+*.swp
+*.swo
+*~
+*.tmp
+*.bak
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# --- Generic compiled / binary artifacts -----------------------------------
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+*.class
+*.pdb
+
+# --- Archives produced by builds (commit deliberate assets via `git add -f`)-
+*.7z
+*.gz
+*.tar
+*.rar
+# (.zip is intentionally NOT ignored — docs/ assets are often zipped.)
+
+# --- Python ----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+pip-log.txt
+
+# --- Node.js / JavaScript / TypeScript -------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm/
+.pnpm-store/
+.yarn/cache/
+*.tsbuildinfo
+.eslintcache
+
+# --- .NET / C# --------------------------------------------------------------
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+.vs/
+
+# --- Java / JVM -------------------------------------------------------------
+*.jar
+*.war
+*.ear
+target/
+.gradle/
+build/
+
+# --- Go ---------------------------------------------------------------------
+*.test
+/vendor/
+
+# --- Rust -------------------------------------------------------------------
+/target/
+Cargo.lock
+
+# --- PowerShell / Windows scripting ----------------------------------------
+*.ps1xml.bak
+
+# --- Logs & coverage --------------------------------------------------------
+*.log
+logs/
+coverage/
+.nyc_output/
+
+# --- Environment & secrets --------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# --- Headless-browser runtime caches (reference-harvester skill) ------------
+.harvest-cache/
+.playwright/
+.cache/

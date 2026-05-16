@@ -1,0 +1,4 @@
+# This file tells GitHub Pages to skip Jekyll processing and serve files as-is.
+# Content is irrelevant — only the file's presence matters.
+# Without it, GitHub Pages would run Jekyll, which silently strips files and
+# folders whose names start with _ or . (including .claude/, _scripts/, etc.).
