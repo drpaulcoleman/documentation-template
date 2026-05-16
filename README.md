@@ -103,15 +103,24 @@ A finished `index.html` includes, with no build step:
 
 ```
 .
-├── index.html              The documentation site (a working demo until you initialise)
+├── index.html              The documentation site (self-contained; no build step)
 ├── README.md               This file
-├── CLAUDE.md               Durable rulebook the AI follows — survives rebuilds
+├── CLAUDE.md               Durable AI rulebook — survives index.html/README rebuilds
 ├── llms.txt                Plain-text summary for AI/LLM crawlers
-├── docs/                   Optional: files you want committed & published
+├── .nojekyll               Tells GitHub Pages to skip Jekyll and serve files as-is
+├── .gitignore              Excludes references/, editor clutter, build artifacts
+├── .gitattributes          Line-ending and diff settings
+├── LICENSE                 Mozilla Public License 2.0
+├── docs/                   Optional: additional committed/published files
 ├── references/             Local-only reference material (git-ignored)
-├── .github/                GitHub repo metadata
-├── .githooks/pre-commit    Security commit gate (secret & artifact scanner)
-└── .claude/                AI tooling — skills, commands, hooks, settings
+│   └── README.md           Explains the references/ folder (the only tracked file)
+├── .githooks/
+│   └── pre-commit          Security commit gate — scans for secrets & unsafe artifacts
+└── .claude/                AI tooling
+    ├── commands/           /plan  /write  /check  /download  /enhance-document
+    ├── hooks/              bump-last-modified  commit-guard  readme-sync-prompt
+    ├── settings.json       Registers hooks with the Claude Code harness
+    └── skills/             reference-harvester  skill-creator
 ```
 
 ## AI tooling
