@@ -197,25 +197,24 @@ for details.
 ## GitHub Pages
 
 The workflow at `.github/workflows/deploy-pages.yml` publishes the site on every
-push to `main`. It uses `actions/configure-pages` with `enablement: true`, which
-turns Pages on automatically the first time it runs — so a repo created from this
-template usually needs no manual setup.
-
-**To verify or enable Pages manually on your repo:**
+push to `main`. It requires a **one-time setup step** in your repo before the
+first deployment will succeed:
 
 1. Go to your repository on GitHub.
 2. Click **Settings** (top navigation bar).
 3. In the left sidebar, click **Pages**.
-4. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-5. Push any change to `main` (or re-run the workflow under **Actions**) to trigger
-   the first deployment.
-6. GitHub will display the published URL at the top of the Pages settings page —
-   it will be `https://<your-username>.github.io/<your-repo-name>/`.
+4. Under **Build and deployment**, set **Source** to **GitHub Actions** and save.
+5. Push any change to `main` (or go to **Actions → Deploy to GitHub Pages → Run
+   workflow**) to trigger the first deployment.
+6. Your published URL will appear at the top of the Pages settings page:
+   `https://<your-username>.github.io/<your-repo-name>/`
 
-If your organisation blocks API enablement, the manual steps above are required.
-If the workflow still fails after enabling, check **Actions → deploy-pages** for
-error details — the most common cause is that Pages is set to **Deploy from a
-branch** instead of **GitHub Actions**.
+After that first setup, every push to `main` deploys automatically with no further
+action required.
+
+If the workflow fails, check **Actions → deploy-pages** for details — the most
+common cause is Source still set to **Deploy from a branch** instead of
+**GitHub Actions**.
 
 ## Disclaimers
 
