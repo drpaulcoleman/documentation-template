@@ -109,7 +109,7 @@ A finished `index.html` includes, with no build step:
 ├── llms.txt                Plain-text summary for AI/LLM crawlers
 ├── docs/                   Optional: files you want committed & published
 ├── references/             Local-only reference material (git-ignored)
-├── .github/workflows/      GitHub Pages deploy workflow
+├── .github/                GitHub repo metadata
 ├── .githooks/pre-commit    Security commit gate (secret & artifact scanner)
 └── .claude/                AI tooling — skills, commands, hooks, settings
 ```
@@ -196,25 +196,21 @@ for details.
 
 ## GitHub Pages
 
-The workflow at `.github/workflows/deploy-pages.yml` publishes the site on every
-push to `main`. It requires a **one-time setup step** in your repo before the
-first deployment will succeed:
+`index.html` is a single self-contained file — no build step needed. GitHub Pages
+can serve it directly from the `main` branch.
+
+**One-time setup (per repo):**
 
 1. Go to your repository on GitHub.
-2. Click **Settings** (top navigation bar).
-3. In the left sidebar, click **Pages**.
-4. Under **Build and deployment**, set **Source** to **GitHub Actions** and save.
-5. Push any change to `main` (or go to **Actions → Deploy to GitHub Pages → Run
-   workflow**) to trigger the first deployment.
-6. Your published URL will appear at the top of the Pages settings page:
-   `https://<your-username>.github.io/<your-repo-name>/`
+2. Click **Settings** → **Pages** (left sidebar).
+3. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
+4. Set **Branch** to `main` and **Folder** to `/ (root)`. Save.
+5. GitHub will publish the site within a minute and show the URL at the top of
+   the Pages settings page: `https://<your-username>.github.io/<your-repo-name>/`
 
-After that first setup, every push to `main` deploys automatically with no further
-action required.
-
-If the workflow fails, check **Actions → deploy-pages** for details — the most
-common cause is Source still set to **Deploy from a branch** instead of
-**GitHub Actions**.
+Every push to `main` after that redeploys automatically — no workflow file needed.
+The `.nojekyll` file in the repo root tells GitHub Pages to skip Jekyll processing
+and serve `index.html` exactly as-is.
 
 ## Disclaimers
 
