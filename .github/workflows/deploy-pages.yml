@@ -1,12 +1,10 @@
 # Builds and publishes the repository root to GitHub Pages.
 #
-# `actions/configure-pages` runs with `enablement: true`, which turns Pages on
-# via the API the first time this workflow runs — so a repo created from this
-# template usually needs no manual Pages setup.
+# REQUIRED FIRST-TIME SETUP (one-time, per repo):
+#   GitHub Settings -> Pages -> Build and deployment -> Source: "GitHub Actions"
+#   Then push to main or run this workflow manually.
 #
-# Fallback: if your org blocks API enablement, enable it once by hand at
-#   Settings -> Pages -> Build and deployment -> Source: "GitHub Actions"
-# and re-run this workflow.
+# The workflow handles all subsequent deployments automatically on every push to main.
 name: Deploy to GitHub Pages
 
 on:
@@ -28,6 +26,8 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -35,10 +35,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure Pages (auto-enable)
+      - name: Configure Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
