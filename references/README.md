@@ -9,7 +9,6 @@ it is never committed and never published to GitHub Pages.
 - Web pages and PDFs pulled in by the **`/download`** command (via the
   `reference-harvester` skill) — saved with their source URL and retrieval date
   so they can be cited correctly later.
-- `PROJECT-PLAN.md` — the task-tracked build/refinement plan for this repo.
 - Any notes, source documents, or research you want an AI assistant to read for
   context while building or revising `index.html`.
 
