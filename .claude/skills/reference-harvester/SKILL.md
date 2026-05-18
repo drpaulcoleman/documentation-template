@@ -96,25 +96,56 @@ fetching by hand:
 When given a subject/topic instead of a URL, gather candidate sources, then
 harvest the promising ones.
 
-- Query the major general engines — **DuckDuckGo, Google, Bing/Yahoo**.
-  DuckDuckGo's HTML endpoint (`https://html.duckduckgo.com/html/?q=...`) is the
-  most automation-friendly; for Google/Yahoo, load the results page in the
-  headless browser so it renders.
-- **Always also search Google Scholar** (`https://scholar.google.com/scholar?q=...`)
-  — scholarly sources strengthen a document's references. Scholar aggressively
-  blocks bots and may return a CAPTCHA; if so, report it and continue with the
-  other engines rather than failing.
+### Search engine fallback chain
+
+Search engines aggressively block automated requests. Use this **ordered
+fallback chain** — try the next engine when the current one returns a CAPTCHA,
+empty results, or a block page. **Always use the best available renderer**
+(Chrome headless > fetch-basic.sh > WebFetch) for each attempt.
+
+| Priority | Engine | URL pattern | Notes |
+|----------|--------|-------------|-------|
+| 1 | **Google** | `https://www.google.com/search?q=<encoded>` | Requires JS rendering (Chrome headless). Best result quality. |
+| 2 | **Bing** | `https://www.bing.com/search?q=<encoded>` | Requires JS rendering. Good fallback. |
+| 3 | **DuckDuckGo HTML** | `https://html.duckduckgo.com/html/?q=<encoded>` | No JS needed but frequently CAPTCHAs automated requests. |
+| 4 | **Google Scholar** | `https://scholar.google.com/scholar?q=<encoded>` | Always attempt for academic/technical topics. Blocks aggressively. |
+
+**Critical rule:** When a headless browser (Chrome, Playwright, Puppeteer) is
+available, **never fall back to `fetch-basic.sh` or WebFetch for search result
+pages**. Search engines are JS-rendered — static fetch returns empty shells or
+redirect pages. Use the headless browser for all search attempts.
 
 ```sh
-python scripts/harvest.py --search "<subject>" --out references
+# Chrome headless — use for Google, Bing, Scholar
+sh scripts/harvest-chrome.sh "https://www.google.com/search?q=your+query" references
+sh scripts/harvest-chrome.sh "https://www.bing.com/search?q=your+query" references
+
+# Only use DuckDuckGo HTML if no headless browser is available
+sh scripts/fetch-basic.sh "https://html.duckduckgo.com/html/?q=your+query" references
 ```
 
-This writes `references/_search/<subject-slug>.md` — a deduplicated, ranked list
-of result links with engine attribution. Review it with the user, then harvest
-the chosen URLs.
+### Detecting a blocked search
 
-Searches are **best-effort**: engines block automation unpredictably. Always
-report which engines succeeded and which were blocked; never silently drop one.
+After fetching, **check the result** before proceeding:
+- Look for CAPTCHA indicators: "select all squares", "verify you are human",
+  "unusual traffic", challenge forms, empty result lists
+- If blocked: report which engine failed, immediately try the next engine in
+  the chain
+- **Never silently abandon search** — always exhaust the chain and report status
+
+### Search output
+
+Write `references/_search/<subject-slug>.md` — a deduplicated, ranked list of
+result links with engine attribution. Include which engines succeeded and which
+were blocked so the user can intervene if needed.
+
+### Fetching individual result pages
+
+After gathering search results, harvest the promising URLs using the **same
+headless browser** (not fetch-basic.sh, not WebFetch). Most modern documentation
+sites, blogs, and knowledge bases are JS-rendered SPAs — static fetch returns
+empty `<div id="app"></div>` shells. The headless browser is the correct tool
+for both search AND result harvesting.
 
 ## Output and citations
 
