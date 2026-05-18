@@ -47,6 +47,7 @@ Use the first row whose requirements the probe confirmed:
 | Python 3 **with Playwright**         | `scripts/harvest.py`   | Yes (best)   |
 | Node.js **with Playwright/Puppeteer**| `scripts/harvest.mjs`  | Yes          |
 | Windows PowerShell **+ Microsoft Edge** | `scripts/harvest.ps1` | Yes (Edge headless) |
+| Google Chrome / Chromium (no Playwright) | `scripts/harvest-chrome.sh` | Yes (Chrome headless) |
 | Only `curl`/`wget` (or none of the above) | `scripts/fetch-basic.sh` | No — static HTML/PDF only |
 
 If only the no-JS fallback is available, tell the user: JS-rendered pages may
@@ -61,6 +62,8 @@ python scripts/harvest.py "<url>" --out references
 node scripts/harvest.mjs "<url>" --out references
 # PowerShell path
 powershell -File scripts/harvest.ps1 -Url "<url>" -Out references
+# Chrome headless path (macOS / Linux — no Playwright needed)
+sh scripts/harvest-chrome.sh "<url>" references
 # No-JS fallback
 sh scripts/fetch-basic.sh "<url>" references
 ```
